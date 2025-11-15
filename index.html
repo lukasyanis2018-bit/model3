@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avocat Nume Prenume | Cabinet de Avocat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #c9a961;
+            --gold: #d4af37;
+            --light: #f8f9fa;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .header.scrolled {
+            padding: 0.8rem 0;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            letter-spacing: 4px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(22, 33, 62, 0.9)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%231a1a2e"/><stop offset="100%" style="stop-color:%2316213e"/></linearGradient></defs><rect fill="url(%23g)" width="1920" height="1080"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 80px 3rem 100px;
+            text-align: center;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(201, 169, 97, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            font-weight: 300;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 2px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 8rem 3rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-subtitle {
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: var(--primary);
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-description {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .why-choose {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            border-radius: 0;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .feature-item:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .feature-item:hover .feature-icon {
+            transform: rotateY(360deg);
+        }
+
+        .feature-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .feature-item p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.8;
+        }
+
+        .about-section {
+            background: var(--light);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 3px solid var(--gold);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+
+        .about-image::after {
+            content: 'IP';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            color: rgba(201, 169, 97, 0.2);
+            font-weight: 700;
+            letter-spacing: 10px;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .about-text h3 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        .credentials {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .credential-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-left: 3px solid var(--gold);
+        }
+
+        .credential-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .stats-section {
+            background: white;
+            color: var(--text-dark);
+            padding: 5rem 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .blog-card {
+            background: white;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid #e8e8e8;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .blog-date {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gold);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+
+        .blog-content {
+            padding: 2rem;
+        }
+
+        .blog-category {
+            color: var(--gold);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .blog-card h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .blog-link:hover {
+            letter-spacing: 2px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            text-align: center;
+            padding: 8rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(201, 169, 97, 0.1) 0%, transparent 70%);
+            animation: rotateBg 30s linear infinite;
+        }
+
+        @keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .contact-section {
+            background: var(--light);
+        }
+
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: white;
+            border-left: 3px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .contact-details p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e8e8e8;
+            border-radius: 0;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .footer {
+            background: var(--primary);
+            color: white;
+            padding: 4rem 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-about h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+
+        .footer-about p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links h4 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .nav-menu {
+                gap: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .about-content,
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero {
+                padding: 180px 2rem 100px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .container {
+                padding: 5rem 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="nav-container">
+            <div class="logo">Avocat NP</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#acasa">Acasă</a></li>
+                    <li><a href="#despre">Despre</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="acasa">
+        <div class="hero-content">
+            <div class="hero-subtitle">Cabinet de Avocat</div>
+            <h1>Excelență Juridică<br>Protejarea Drepturilor Tale</h1>
+            <p class="hero-description">Soluții juridice complete pentru cazuri de drept civil, comercial și penal.</p>
+            <div class="btn-group">
+                <a href="tel:telefon" class="btn btn-primary">Sună Acum</a>
+                <a href="#despre" class="btn btn-secondary">Descoperă Mai Mult</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" data-target="850" data-suffix="+">0+</div>
+                <div class="stat-label">Cazuri Câștigate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="98" data-suffix="%">0%</div>
+                <div class="stat-label">Rată de Succes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="500" data-suffix="+">0+</div>
+                <div class="stat-label">Clienți Mulțumiți</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-choose">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle" style="color: var(--gold);">De Ce Cabinet Avocat Nume Prenume</div>
+                <h2 class="section-title" style="color: white;">Excelență Fără Compromis</h2>
+                <p class="section-description" style="color: rgba(255,255,255,0.8);">Ne dedicăm fiecărui caz cu aceeași pasiune și profesionalism, oferind soluții juridice care depășesc așteptările.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">⚖</div>
+                    <h3>Experiență Vastă</h3>
+                    <p>Practică juridică extinsă în cazuri de mare complexitate, cu rezultate dovedite în instanțele de toate nivelurile.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">★</div>
+                    <h3>Abordare Personalizată</h3>
+                    <p>Fiecare caz este unic. Dezvoltăm strategii juridice personalizate, adaptate nevoilor specifice ale fiecărui client.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">◆</div>
+                    <h3>Disponibilitate Completă</h3>
+                    <p>Răspundem prompt la solicitări, oferind consiliere juridică de urgență când este necesar. Clienții noștri sunt prioritatea noastră.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">●</div>
+                    <h3>Rezultate Dovedite</h3>
+                    <p>Rată de succes de 98% în cazurile reprezentate, bazată pe pregătire meticuloasă și expertiza în domeniu.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">■</div>
+                    <h3>Etică Profesională</h3>
+                    <p>Integritate, confidențialitate și transparență în toate interacțiunile. Respectăm cele mai înalte standarde deontologice.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">▲</div>
+                    <h3>Rețea Extinsă</h3>
+                    <p>Colaborări cu experți din diverse domenii pentru soluții juridice comprehensive și multidisciplinare.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" id="despre">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image-wrapper">
+                    <div class="about-image"></div>
+                </div>
+                <div class="about-text">
+                    <div class="section-subtitle">Despre Mine</div>
+                    <h3>Avocat Nume Prenume</h3>
+                    <p>Cu experiență în practică juridică, am reprezentat cu succes sute de clienți în cazuri complexe de drept civil, comercial și penal. Pasiunea mea pentru dreptate și angajamentul față de clienți m-au transformat într-unul dintre cei mai respectați avocați din țară, oferind soluții juridice complete pentru cazuri de maximă importanță.</p>
+                    <p>Cred cu tărie că fiecare client merită o apărare de calitate superioară, indiferent de complexitatea cazului. Abordarea mea combină expertiza juridică profundă cu o înțelegere empatică a nevoilor umane ale clienților.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="blog">
+        <div class="section-header">
+            <div class="section-subtitle">Informații Juridice</div>
+            <h2 class="section-title">Blog & Articole</h2>
+            <p class="section-description">Rămâneți informat cu cele mai recente actualizări legislative și analize juridice din domeniile noastre de expertiză.</p>
+        </div>
+        <div class="blog-grid">
+            <div class="blog-card">
+                <div class="blog-image">
+                    <div class="blog-date">ZZ LL AAAA</div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-category">Categorie</div>
+                    <h3>Titlu Articol Blog</h3>
+                    <p class="blog-excerpt">Descriere scurtă a articolului de blog cu informații relevante despre subiectul abordat în articol.</p>
+                    <a href="#" class="blog-link">Citește Mai Mult →</a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-image">
+                    <div class="blog-date">ZZ LL AAAA</div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-category">Categorie</div>
+                    <h3>Titlu Articol Blog</h3>
+                    <p class="blog-excerpt">Descriere scurtă a articolului de blog cu informații relevante despre subiectul abordat în articol.</p>
+                    <a href="#" class="blog-link">Citește Mai Mult →</a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-image">
+                    <div class="blog-date">ZZ LL AAAA</div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-category">Categorie</div>
+                    <h3>Titlu Articol Blog</h3>
+                    <p class="blog-excerpt">Descriere scurtă a articolului de blog cu informații relevante despre subiectul abordat în articol.</p>
+                    <a href="#" class="blog-link">Citește Mai Mult →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Aveți Nevoie de Asistență Juridică Profesionistă?</h2>
+            <p>Programați o consultație confidențială pentru a discuta despre cazul dumneavoastră. Prima consultare include o analiză detaliată a situației juridice și recomandări strategice.</p>
+            <div class="btn-group">
+                <a href="#contact" class="btn btn-primary">Contactați-ne Acum</a>
+                <a href="tel:telefon" class="btn btn-secondary">Apel Direct: Telefon</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle">Contactați-ne</div>
+                <h2 class="section-title">Programează o Consultație</h2>
+                <p class="section-description">Suntem aici pentru a vă ajuta. Completați formularul sau contactați-ne direct pentru a programa o întâlnire.</p>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon-wrapper">◆</div>
+                        <div class="contact-details">
+                            <h4>Adresa Cabinetului</h4>
+                            <p>Strada Nume Stradă Nr. XX<br>Oraș, Județ<br>România</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrapper">☎</div>
+                        <div class="contact-details">
+                            <h4>Telefon</h4>
+                            <p>Telefon 1<br>Telefon 2<br>Luni - Vineri: 9:00 - 18:00</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrapper">✉</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>contact@email.com<br>cabinet@email.com<br>Răspuns în maxim 24h</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-wrapper">◷</div>
+                        <div class="contact-details">
+                            <h4>Program de Lucru</h4>
+                            <p>Luni - Vineri: 9:00 - 18:00<br>Sâmbătă: 10:00 - 14:00<br>Consultații cu programare</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form onsubmit="return handleSubmit(event)">
+                        <div class="form-group">
+                            <label>Nume Complet *</label>
+                            <input type="text" required placeholder="Introduceți numele complet">
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" required placeholder="adresa@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon *</label>
+                            <input type="tel" required placeholder="+40 7XX XXX XXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Mesajul Dumneavoastră *</label>
+                            <textarea required placeholder="Descrieți pe scurt situația juridică..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Trimite Solicitare</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>Nume Prenume</h3>
+                <p>Cabinet de avocat cu experiență vastă în drept. Oferim soluții juridice de calitate superioară pentru protejarea drepturilor și intereselor clienților noștri.</p>
+                <p style="color: var(--gold); margin-top: 1rem;">Membru al Baroului din Anul</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigare</h4>
+                <ul>
+                    <li><a href="#acasa">Acasă</a></li>
+                    <li><a href="#despre">Despre</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Informații</h4>
+                <ul>
+                    <li><a href="#">Politica de Confidențialitate</a></li>
+                    <li><a href="#">Termeni și Condiții</a></li>
+                    <li><a href="#">GDPR</a></li>
+                    <li><a href="#">Întrebări Frecvente</a></li>
+                    <li><a href="#">Cariere</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Program</h4>
+                <ul>
+                    <li style="color: rgba(255,255,255,0.7);">Luni - Vineri</li>
+                    <li style="color: rgba(255,255,255,0.7);">9:00 - 18:00</li>
+                    <li style="color: rgba(255,255,255,0.7); margin-top: 1rem;">Sâmbătă</li>
+                    <li style="color: rgba(255,255,255,0.7);">10:00 - 14:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Cabinet Avocat Nume Prenume. Toate drepturile rezervate. | Proiectat pentru excelență juridică.</p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Scroll effect pentru header
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll pentru link-uri
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('Mulțumim pentru mesaj! Vă vom contacta în maximum 24 de ore pentru a programa consultația.\n\nEchipa Cabinet Avocat');
+            e.target.reset();
+            return false;
+        }
+
+        // Animație la scroll pentru elemente
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Animație pentru numerele din statistici
+        function animateNumber(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const suffix = element.getAttribute('data-suffix') || '';
+            const duration = 2000; // 2 secunde
+            const startTime = performance.now();
+
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const current = Math.floor(progress * target);
+                element.textContent = current + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    element.textContent = target + suffix;
+                }
+            }
+
+            requestAnimationFrame(updateNumber);
+        }
+
+        // Observer pentru secțiunea de statistici
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach((num, index) => {
+                        setTimeout(() => {
+                            animateNumber(num);
+                        }, index * 150); // Delay între animații
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        // Observă secțiunea de statistici
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Observer pentru alte elemente
+        document.querySelectorAll('.feature-item, .blog-card, .about-text').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'all 0.6s ease';
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
+       
